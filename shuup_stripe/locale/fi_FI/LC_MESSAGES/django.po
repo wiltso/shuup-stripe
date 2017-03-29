@@ -19,38 +19,42 @@ msgstr ""
 
 #, python-format
 msgid "Please configure Stripe keys for payment processor %s."
-msgstr ""
+msgstr "Asettele Stripen avaimet maksunkäsittelijälle %s."
 
 msgid "Purchase"
-msgstr ""
+msgstr "Osta"
 
 msgid "Secret Key"
-msgstr ""
+msgstr "Salainen avain"
 
 msgid "Publishable Key"
-msgstr ""
+msgstr "Julkistettava avain"
 
 msgid "Stripe Checkout"
-msgstr ""
+msgstr "Stripe-maksu"
 
 #, python-brace-format
 msgid "Payment for order {id} on {shop}"
-msgstr ""
+msgstr "Tilauksen {id} maksu kaupassa {shop}"
 
 msgid "We use Stripe for secure payment handling."
-msgstr ""
+msgstr "Käytämme Stripeä turvalliseen maksunkäsittelyyn."
 
 msgid ""
 "Click the button below to enter your card details. You will only be charged "
 "when your order completes."
 msgstr ""
+"Paina alla olevaa nappia syöttääksesi maksukortin tiedot. Maksu veloitetaan "
+"vasta kun tilauksesi on valmis."
 
 #, python-format
 msgid "Accept credit cards using <a target='_blank' href='%(url)s'>Stripe</a>"
 msgstr ""
+"Vastaanota luottokorttimaksuja <a target='_blank' href='%(url)s'>Stripellä</"
+"a>"
 
 msgid "Don't have a Stripe account?"
-msgstr ""
+msgstr "Eikö sinulla ole vielä Stripe-tunnusta?"
 
 msgid "Register now"
-msgstr ""
+msgstr "Rekisteröidy nyt"
