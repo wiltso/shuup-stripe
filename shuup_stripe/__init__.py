@@ -6,9 +6,13 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
+import pkg_resources
 from shuup.apps import AppConfig
 
-__version__ = '0.5.0'
+try:
+    __version__ = pkg_resources.get_distribution(__name__).version
+except pkg_resources.DistributionNotFound:
+    __version__ = None
 
 
 class ShuupStripeAppConfig(AppConfig):
