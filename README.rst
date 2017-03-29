@@ -1,7 +1,8 @@
 .. image:: https://travis-ci.org/shuup/shuup-stripe.svg?branch=master
     :target: https://travis-ci.org/shuup/shuup-stripe
-.. image:: https://coveralls.io/repos/github/shuup/shuup-stripe/badge.svg?branch=master
-    :target: https://coveralls.io/github/shuup/shuup-stripe?branch=master
+.. image::
+   https://codecov.io/gh/shuup/shuup-stripe/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/shuup/shuup-stripe
 
 Shuup Stripe Addon
 ==================
