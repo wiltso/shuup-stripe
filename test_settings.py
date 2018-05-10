@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+# This file is part of Shuup Stripe Addon.
+#
+# Copyright (c) 2012-2018, Shoop Commerce Ltd. All rights reserved.
+#
+# This source code is licensed under the AGPLv3 license found in the
+# LICENSE file in the root directory of this source tree.
 import os
 import tempfile
 
@@ -11,13 +17,15 @@ INSTALLED_APPS = (
     "easy_thumbnails",
     "filer",
     "shuup.core",
+    "shuup.admin",
     "shuup.customer_group_pricing",
     "shuup.campaigns",
     "shuup.front",
     "shuup.default_tax",
-    "shuup_stripe",
     "shuup.testing",
     "shuup.notify",
+    "shuup_stripe",
+    "bootstrap3",  # shuup.admin requirement
 )
 
 DATABASES = {
@@ -25,7 +33,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(
             tempfile.gettempdir(),
-            'shuup_stripe_tests.sqlite3'
+            'tests.sqlite3'
         ),
     }
 }
@@ -42,6 +50,10 @@ class DisableMigrations(object):
 MIGRATION_MODULES = DisableMigrations()
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "var", "media")
 
+STATIC_URL = "static/"
+
+ROOT_URLCONF = 'shuup_workbench.urls'
+
 LANGUAGES = [
     ('en', 'English'),
     ('fi', 'Finnish'),
@@ -49,6 +61,7 @@ LANGUAGES = [
     ('zh-hans', 'Simplified Chinese'),
     ('pt-br', 'Portuguese (Brazil)'),
 ]
+USE_TZ = True
 
 PARLER_DEFAULT_LANGUAGE_CODE = "en"
 
@@ -70,3 +83,13 @@ TEMPLATES = [
         "NAME": "jinja2",
     },
 ]
+
+# This is being used the pull connect data from configuration
+STRIPE_CONNECT_OAUTH_DATA_KEY = "stripe_connect_oauth_data"
+
+# platform level secrets for connect to use
+STRIPE_SECRET_KEY = "sk_test_aasdf"
+STRIPE_PUBLIC_KEY = "sk_test_aasdf"
+STRIPE_CONNECT_REDIRECT_URI = "https://www.stripe.com"
+STRIPE_CONNECT_REDIRECT_ADMIN_URI = None
+STRIPE_OAUTH_CLIENT_ID = "sk_test_aasdf"
