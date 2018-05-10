@@ -93,3 +93,7 @@ STRIPE_PUBLIC_KEY = "sk_test_aasdf"
 STRIPE_CONNECT_REDIRECT_URI = "https://www.stripe.com"
 STRIPE_CONNECT_REDIRECT_ADMIN_URI = None
 STRIPE_OAUTH_CLIENT_ID = "sk_test_aasdf"
+
+STRIPE_CONNECT_FEE_PERCENTAGE = None
+
+STRIPE_OAUTH_REDIRECTOR = "shuup_stripe.redirector:StripeRedirector"

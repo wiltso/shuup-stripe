@@ -18,6 +18,7 @@ class ShuupStripeAppConfig(AppConfig):
     name = "shuup_stripe"
     verbose_name = "Shuup Stripe Checkout integration"
     label = "shuup_stripe"
+
     provides = {
         "front_service_checkout_phase_provider": [
             "shuup_stripe.checkout_phase:StripeCheckoutPhaseProvider",
@@ -27,7 +28,14 @@ class ShuupStripeAppConfig(AppConfig):
         ],
         "payment_processor_wizard_form_def": [
             "shuup_stripe.admin_forms:StripeCheckoutWizardFormDef",
+        ],
+        "front_urls_pre": [
+            "shuup_stripe.urls:urlpatterns"
+        ],
+        "admin_module": [
+            "shuup_stripe.admin_module:StripeAdminModule"
         ]
     }
 
-default_app_config = "shuup_stripe.ShuupStripeAppConfig"
+
+default_app_config = __name__ + ".ShuupStripeAppConfig"

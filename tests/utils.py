@@ -5,11 +5,14 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
+from django.shortcuts import redirect
 from django.utils.timezone import now
 from shuup.testing.factories import (
     create_order_with_product, get_default_product, get_default_supplier,
     get_default_tax_class)
 from shuup.utils.http import retry_request
+
+from shuup_stripe.redirector import StripeRedirector
 
 
 def create_order_for_stripe(stripe_payment_processor, identifier=None, unit_price=100):
@@ -42,3 +45,8 @@ def get_stripe_token(stripe_payment_processor):
             "card[cvc]": 666,
         }
     ).json()
+
+
+class GoogleRedirector(StripeRedirector):
+    def redirect(self, **kwargs):
+        return redirect("https://www.google.com")

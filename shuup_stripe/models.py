@@ -19,7 +19,10 @@ class StripeCheckoutPaymentProcessor(PaymentProcessor):
         max_length=100, verbose_name=_("Publishable Key"))
 
     def get_service_choices(self):
-        return [ServiceChoice('stripe', _("Stripe Checkout"))]
+        return [
+            ServiceChoice('stripe', _("Stripe Checkout")),
+            ServiceChoice('stripe_connect', _("Stripe Connect")),
+        ]
 
     def process_payment_return_request(self, service, order, request):
         if not order.is_paid():
