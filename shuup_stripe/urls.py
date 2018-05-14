@@ -5,11 +5,10 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
-import pkg_resources
+from django.conf.urls import url
 
-try:
-    __version__ = pkg_resources.get_distribution(__name__).version
-except pkg_resources.DistributionNotFound:
-    __version__ = None
+from shuup_stripe.views import OAuthCallbackView
 
-default_app_config = __name__ + ".apps.ShuupStripeAppConfig"
+urlpatterns = [
+    url(r'^stripe/connect/$', OAuthCallbackView.as_view(), name='stripe_connect_auth'),
+]

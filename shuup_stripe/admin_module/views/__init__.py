@@ -5,11 +5,8 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
-import pkg_resources
+from .connect import StripeConnectView
 
-try:
-    __version__ = pkg_resources.get_distribution(__name__).version
-except pkg_resources.DistributionNotFound:
-    __version__ = None
-
-default_app_config = __name__ + ".apps.ShuupStripeAppConfig"
+__all__ = [
+    "StripeConnectView"
+]

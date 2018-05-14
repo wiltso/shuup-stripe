@@ -1,6 +1,6 @@
 # This file is part of Shuup Stripe Addon.
 #
-# Copyright (c) 2012-2016, Shoop Commerce Ltd. All rights reserved.
+# Copyright (c) 2012-2018, Shuup Inc. All rights reserved.
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
@@ -19,7 +19,10 @@ class StripeCheckoutPaymentProcessor(PaymentProcessor):
         max_length=100, verbose_name=_("Publishable Key"))
 
     def get_service_choices(self):
-        return [ServiceChoice('stripe', _("Stripe Checkout"))]
+        return [
+            ServiceChoice('stripe', _("Stripe Checkout")),
+            ServiceChoice('stripe_connect', _("Stripe Connect")),
+        ]
 
     def process_payment_return_request(self, service, order, request):
         if not order.is_paid():
