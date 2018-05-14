@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-29 08:44+0000\n"
+"POT-Creation-Date: 2018-05-14 16:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Stripe"
+msgstr "Stripe"
+
+msgid ""
+"Connect your Stripe account to Shuup store. Once connected, you are able to "
+"receive payments."
+msgstr "Yhdistä Stripe tilisi Shuup kauppaasi. Voit vastaanottaa maksuja yhteyden luonnin jälkeen."
+
+msgid "Connect Stripe"
+msgstr "Yhdistä Stripe"
+
 #, python-format
 msgid "Please configure Stripe keys for payment processor %s."
-msgstr "Asettele Stripen avaimet maksunkäsittelijälle %s."
+msgstr "Aseta Stripen avaimet maksunkäsittelijälle %s."
 
 msgid "Purchase"
 msgstr "Osta"
@@ -28,9 +39,14 @@ msgid "Secret Key"
 msgstr "Salainen avain"
 
 msgid "Publishable Key"
-msgstr "Julkistettava avain"
+msgstr "Julkinen avain"
 
 msgid "Stripe Checkout"
+msgstr "Stripe-maksu"
+
+#, fuzzy
+#| msgid "Stripe Checkout"
+msgid "Stripe Connect"
 msgstr "Stripe-maksu"
 
 #, python-brace-format
@@ -46,6 +62,42 @@ msgid ""
 msgstr ""
 "Paina alla olevaa nappia syöttääksesi maksukortin tiedot. Maksu veloitetaan "
 "vasta kun tilauksesi on valmis."
+
+#, fuzzy
+#| msgid "Stripe Checkout"
+msgid "Stripe Account Status"
+msgstr "Stripe-maksu"
+
+msgid "Account connected"
+msgstr "Tili yhdistetty"
+
+msgid "Yes"
+msgstr "Kyllä"
+
+msgid "No"
+msgstr "Ei"
+
+msgid "Stripe Payment Method"
+msgstr "Stripe -maksutapa"
+
+msgid "Stripe Payment Method Active"
+msgstr "Stripe maksutapa aktiivinen"
+
+msgid "Re-Connect with Stripe"
+msgstr "Uudelleenyhdistä Stripe"
+
+msgid "Stripe Dashboard"
+msgstr "Stripe kauppiaspaneeli"
+
+msgid "Connect with Stripe"
+msgstr "Yhdistä Stripen kanssa"
+
+msgid ""
+"Cannot connect with Stripe. Please ask your service provider to re-configure "
+"your shop."
+msgstr ""
+"Stripeä ei voitu yhdistää. Ole hyvä ja pyydä palveluntarjoajaasi "
+"uudelleenmäärittelemään kauppasi asetukset."
 
 #, python-format
 msgid "Accept credit cards using <a target='_blank' href='%(url)s'>Stripe</a>"
