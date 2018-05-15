@@ -6,11 +6,13 @@ recursive-include shuup_stripe \
     *.ico *.png *.svg *.jpg \
     *.woff *.woff2 *.eot *.otf *.ttf *.po *.mo
 
-prune */*/bower_components
-prune */*/node_modules
-prune */*/*/bower_components
-prune */*/*/node_modules
-prune */*/*/*/bower_components
-prune */*/*/*/node_modules
-prune */*/*/*/*/bower_components
-prune */*/*/*/*/node_modules
+prune shuup_stripe/node_modules
+prune shuup_stripe/*/node_modules
+prune shuup_stripe/*/*/node_modules
+prune shuup_stripe/*/*/*/node_modules
+prune shuup_stripe/*/*/*/*/node_modules
+prune shuup_stripe/bower_components
+prune shuup_stripe/*/bower_components
+prune shuup_stripe/*/*/bower_components
+prune shuup_stripe/*/*/*/bower_components
+prune shuup_stripe/*/*/*/*/bower_components

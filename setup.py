@@ -9,5 +9,5 @@ except ImportError:
 if __name__ == '__main__':
     setuptools.setup(
         cmdclass=(shuup_setup_utils.COMMANDS if shuup_setup_utils else {}),
-        setup_requires=['setuptools>=34.0', 'setuptools-gitver', 'shuup>=1.0'],
+        setup_requires=['setuptools>=34.0', 'setuptools-gitver'],
         gitver=True)

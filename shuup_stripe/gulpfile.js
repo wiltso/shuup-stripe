@@ -14,7 +14,7 @@ gulp.task("less", function() {
         .pipe(less())
         .pipe(concat("shuup_stripe_admin.css"))
         .pipe((PRODUCTION ? minifycss() : gutil.noop()))
-        .pipe(gulp.dest("static/shuup_admin/css/"));
+        .pipe(gulp.dest("static/shuup_stripe/css/"));
 });
 
 gulp.task("js", function() {
@@ -25,7 +25,7 @@ gulp.task("js", function() {
         .pipe(plumber({}))
         .pipe(concat("shuup_stripe.js"))
         .pipe((PRODUCTION ? uglify() : gutil.noop()))
-        .pipe(gulp.dest("static/shuup_admin/js/"));
+        .pipe(gulp.dest("static/shuup_stripe/js/"));
 });
 
 gulp.task("less:watch", ["less"], function() {
