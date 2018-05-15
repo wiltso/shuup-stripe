@@ -25,7 +25,7 @@ from shuup_stripe.module import StripeCharger
 from shuup_stripe.utils import (
     add_fee_to_payload, ensure_stripe_method_for_shop, ensure_stripe_token,
     get_amount_info, get_stripe_connect_url)
-from shuup_stripe.views import OAuthCallbackView
+from shuup_stripe.views.oauth import stripe_oauth_callback
 
 from .data import TOKEN_RETRIEVE_DATA
 from .mocks import (
@@ -108,8 +108,12 @@ def test_ensure_stripe_token():
 
 @pytest.mark.django_db
 @patch.object(shuup_stripe.utils.connect, 'get_stripe_oauth_token', mock_get_stripe_oauth_token)
-def test_oauth_callback(rf, admin_user):
+@pytest.mark.parametrize("maintenance_mode", [True, False])
+def test_oauth_callback(rf, admin_user, maintenance_mode):
     shop = init_test()
+    shop.maintenance_mode = maintenance_mode
+    shop.save()
+
     with override_settings(TAX_CLASS_SERVICES_IDENTIFIER=DEFAULT_IDENTIFIER):
 
         # results admin redirect
@@ -118,8 +122,7 @@ def test_oauth_callback(rf, admin_user):
             "state": "shop_id_%s" % shop.pk
         }), shop=shop)
 
-        view_func = OAuthCallbackView.as_view()
-        response = view_func(request)
+        response = stripe_oauth_callback(request)
         assert response.status_code == 302
         assert response.url == "/sa/stripe/connect/"
         assert StripeCheckoutPaymentProcessor.objects.filter(enabled=True).count() == 1
@@ -127,8 +130,7 @@ def test_oauth_callback(rf, admin_user):
 
         new_url = "https://www.stripe.com"
         with override_settings(STRIPE_CONNECT_REDIRECT_ADMIN_URI=new_url):
-            view_func = OAuthCallbackView.as_view()
-            response = view_func(request)
+            response = stripe_oauth_callback(request)
             assert response.status_code == 302
             assert response.url == new_url
             assert StripeCheckoutPaymentProcessor.objects.filter(enabled=True).count() == 1
@@ -137,33 +139,28 @@ def test_oauth_callback(rf, admin_user):
 
         # break it
         request = apply_request_middleware(rf.get("/"), shop=shop)
-        view_func = OAuthCallbackView.as_view()
+        view_func = stripe_oauth_callback
         response = view_func(request)
         assert response.status_code == 400
 
         request = apply_request_middleware(rf.get("/", data={"code": "123"}), shop=shop)
-        view_func = OAuthCallbackView.as_view()
         response = view_func(request)
         assert response.status_code == 400
 
         request = apply_request_middleware(rf.get("/", data={"state": "123"}), shop=shop)
-        view_func = OAuthCallbackView.as_view()
         response = view_func(request)
         assert response.status_code == 400
 
         request = apply_request_middleware(rf.get("/", data={"state": "123", "code": "123"}), shop=shop)
-        view_func = OAuthCallbackView.as_view()
         response = view_func(request)
         assert response.status_code == 400
 
         # invalid shop id
         request = apply_request_middleware(rf.get("/", data={"state": "shop_id_100", "code": "123"}), shop=shop)
-        view_func = OAuthCallbackView.as_view()
         response = view_func(request)
         assert response.status_code == 400
 
         request = apply_request_middleware(rf.post("/"), shop=shop)
-        view_func = OAuthCallbackView.as_view()
         response = view_func(request)
         assert response.status_code == 400
 
@@ -253,7 +250,6 @@ def test_oauth_redirector(rf, admin_user):
             "state": "shop_id_%s" % shop.pk
         }), shop=shop)
 
-        view_func = OAuthCallbackView.as_view()
-        response = view_func(request)
+        response = stripe_oauth_callback(request)
         assert response.status_code == 302
         assert response.url == "https://www.google.com"
