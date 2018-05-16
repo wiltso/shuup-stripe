@@ -7,8 +7,8 @@
 # LICENSE file in the root directory of this source tree.
 from django.conf.urls import url
 
-from shuup_stripe.views import OAuthCallbackView
+from shuup_stripe.views.oauth import stripe_oauth_callback
 
 urlpatterns = [
-    url(r'^stripe/connect/$', OAuthCallbackView.as_view(), name='stripe_connect_auth'),
+    url(r'^stripe/connect/$', stripe_oauth_callback, name='stripe_connect_auth'),
 ]
