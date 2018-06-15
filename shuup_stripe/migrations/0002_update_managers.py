@@ -3,7 +3,8 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import django.db.models.manager
+
+from shuup.utils.migrations import get_managers_for_migration
 
 
 class Migration(migrations.Migration):
@@ -15,8 +16,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelManagers(
             name='stripecheckoutpaymentprocessor',
-            managers=[
-                ('_default_manager', django.db.models.manager.Manager()),
-            ],
+            managers=get_managers_for_migration(),
         ),
     ]
