@@ -46,9 +46,10 @@ class StripeCheckoutWizardForm(ServiceWizardForm):
 
 
 class StripeCheckoutWizardFormDef(ServiceWizardFormDef):
-    def __init__(self):
+    def __init__(self, request):
         super(StripeCheckoutWizardFormDef, self).__init__(
             name="stripe",
             form_class=StripeCheckoutWizardForm,
-            template_name="shuup/stripe/wizard_form.jinja"
+            template_name="shuup/stripe/wizard_form.jinja",
+            request=request
         )
