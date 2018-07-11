@@ -13,17 +13,18 @@ for the `Shuup <https://shuup.com/>`__ platform.
 Copyright
 ---------
 
-Copyright (c) 2012-2018 by Shuup Inc. <contact@shuup.com>
+Copyright (C) 2012-2018 by Shuup Inc. <support@shuup.com>
 
 Shuup is International Registered Trademark & Property of Shuup Inc.,
-Business ID: FI24815722, Business Address: Aurakatu 12 B, 20100 Turku,
-Finland.
+Business Address: 1013 Centre Road, Suite 403-B,
+Wilmington, Delaware 19805,
+United States Of America
 
 License
 -------
 
-Shuup Stripe Addon is published under the GNU Affero General Public License,
-version 3 (AGPLv3). See the LICENSE file.
+Shuup Stripe addon is published under Open Software License version 3.0 (OSL-3.0).
+See the LICENSE file distributed with Shuup.
 
 Running tests
 -------------

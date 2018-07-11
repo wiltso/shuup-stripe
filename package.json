@@ -5,7 +5,7 @@
   "scripts": {
     "test": "py.test -vvv --cov shuup_stripe --cov-report html tests"
   },
-  "license": "AGPL-3.0",
+  "license": "OSL-3.0",
   "dependencies": {
     "gulp": "^3.9.1"
   }
