@@ -97,3 +97,18 @@ STRIPE_OAUTH_CLIENT_ID = "sk_test_aasdf"
 STRIPE_CONNECT_FEE_PERCENTAGE = None
 
 STRIPE_OAUTH_REDIRECTOR = "shuup_stripe.redirector:StripeRedirector"
+
+MIDDLEWARE_CLASSES = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shuup.front.middleware.ProblemMiddleware',
+    'shuup.core.middleware.ShuupMiddleware',
+    'shuup.front.middleware.ShuupFrontMiddleware',
+    'shuup.admin.middleware.ShuupAdminMiddleware'
+]
