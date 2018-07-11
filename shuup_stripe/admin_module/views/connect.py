@@ -13,7 +13,8 @@ from django.views.generic import TemplateView
 from shuup import configuration
 
 from shuup_stripe.utils import (
-    ensure_stripe_method_for_shop, get_stripe_connect_url)
+    ensure_stripe_method_for_shop, get_stripe_connect_url
+)
 
 
 class StripeConnectView(TemplateView):

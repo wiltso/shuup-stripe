@@ -18,7 +18,7 @@ from .general import get_amount_info
 try:
     import urlparse
     from urllib import urlencode
-except:  # For Python 3
+except ImportError:  # For Python 3
     import urllib.parse as urlparse
     from urllib.parse import urlencode
 

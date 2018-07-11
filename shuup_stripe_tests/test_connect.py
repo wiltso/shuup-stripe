@@ -24,13 +24,15 @@ from shuup_stripe.models import StripeCheckoutPaymentProcessor
 from shuup_stripe.module import StripeCharger
 from shuup_stripe.utils import (
     add_fee_to_payload, ensure_stripe_method_for_shop, ensure_stripe_token,
-    get_amount_info, get_stripe_connect_url)
+    get_amount_info, get_stripe_connect_url
+)
 from shuup_stripe.views.oauth import stripe_oauth_callback
 
 from .data import TOKEN_RETRIEVE_DATA
 from .mocks import (
     mock_charge_create, mock_customer_create, mock_get_stripe_oauth_token,
-    mock_token_retrieve)
+    mock_token_retrieve
+)
 from .utils import create_order_for_stripe
 
 
@@ -243,7 +245,8 @@ def test_add_fee_to_payload(original_amount, fee_percentage, expected_fee):
 def test_oauth_redirector(rf, admin_user):
     shop = init_test()
     with override_settings(
-            TAX_CLASS_SERVICES_IDENTIFIER=DEFAULT_IDENTIFIER, STRIPE_OAUTH_REDIRECTOR="shuup_stripe_tests.utils:GoogleRedirector"):
+            TAX_CLASS_SERVICES_IDENTIFIER=DEFAULT_IDENTIFIER,
+            STRIPE_OAUTH_REDIRECTOR="shuup_stripe_tests.utils:GoogleRedirector"):
         # results google redirect
         request = apply_request_middleware(rf.get("/", data={
             "code": "test",

@@ -10,5 +10,8 @@ install:
   - pip install shuup
   - pip install -r requirements-test.txt
 script:
-  - py.test -ra -vvv --nomigrations tests --cov
-after_success: codecov
+  - flake8 shuup_stripe/
+  - isort --check-only
+  - py.test -ra -vvv --nomigrations tests --cov shuup_stripe
+after_success:
+  - codecov

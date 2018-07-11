@@ -7,7 +7,8 @@
 # LICENSE file in the root directory of this source tree.
 from .connect import (
     add_fee_to_payload, ensure_stripe_method_for_shop, ensure_stripe_token,
-    get_stripe_connect_url)
+    get_stripe_connect_url
+)
 from .general import get_amount_info
 
 __all__ = [

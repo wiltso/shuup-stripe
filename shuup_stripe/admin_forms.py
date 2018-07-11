@@ -6,10 +6,10 @@
 # LICENSE file in the root directory of this source tree.
 from django import forms
 from shuup.admin.forms import ShuupAdminForm
-from shuup.admin.modules.service_providers.wizard_form_defs import (
-    ServiceWizardFormDef)
-from shuup.admin.modules.service_providers.wizard_forms import (
-    ServiceWizardForm)
+from shuup.admin.modules.service_providers.wizard_form_defs import \
+    ServiceWizardFormDef
+from shuup.admin.modules.service_providers.wizard_forms import \
+    ServiceWizardForm
 
 from .models import StripeCheckoutPaymentProcessor
 
