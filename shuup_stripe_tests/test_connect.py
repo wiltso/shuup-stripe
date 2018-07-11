@@ -243,7 +243,7 @@ def test_add_fee_to_payload(original_amount, fee_percentage, expected_fee):
 def test_oauth_redirector(rf, admin_user):
     shop = init_test()
     with override_settings(
-            TAX_CLASS_SERVICES_IDENTIFIER=DEFAULT_IDENTIFIER, STRIPE_OAUTH_REDIRECTOR="tests.utils:GoogleRedirector"):
+            TAX_CLASS_SERVICES_IDENTIFIER=DEFAULT_IDENTIFIER, STRIPE_OAUTH_REDIRECTOR="shuup_stripe_tests.utils:GoogleRedirector"):
         # results google redirect
         request = apply_request_middleware(rf.get("/", data={
             "code": "test",
