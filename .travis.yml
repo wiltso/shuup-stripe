@@ -12,6 +12,6 @@ install:
 script:
   - flake8 shuup_stripe/
   - isort --check-only
-  - py.test -ra -vvv --nomigrations tests --cov shuup_stripe
+  - py.test -ra -vvv --nomigrations shuup_stripe_tests --cov shuup_stripe
 after_success:
   - codecov
