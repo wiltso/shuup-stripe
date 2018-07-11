@@ -1,2 +1,0 @@
-stripe<2,>=1.78.0
-django-environ==0.4.4
