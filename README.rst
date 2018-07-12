@@ -3,6 +3,10 @@
 .. image::
    https://codecov.io/gh/shuup/shuup-stripe/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/shuup/shuup-stripe
+.. image::
+   https://img.shields.io/pypi/v/shuup-stripe.svg
+   :alt: PyPI
+   :target: https://pypi.org/project/shuup-stripe/
 
 Shuup Stripe Addon
 ==================
