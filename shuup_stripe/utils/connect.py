@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012-2018, Shuup Inc. All rights reserved.
 #
-# This source code is licensed under the AGPLv3 license found in the
+# This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
 import json
 from decimal import Decimal
@@ -18,7 +18,7 @@ from .general import get_amount_info
 try:
     import urlparse
     from urllib import urlencode
-except:  # For Python 3
+except ImportError:  # For Python 3
     import urllib.parse as urlparse
     from urllib.parse import urlencode
 

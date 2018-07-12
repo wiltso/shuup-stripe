@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012-2018, Shuup Inc. All rights reserved.
 #
-# This source code is licensed under the AGPLv3 license found in the
+# This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
 import json
 
@@ -15,7 +15,8 @@ from shuup.utils.excs import Problem
 from shuup.utils.http import retry_request
 
 from shuup_stripe.utils import (
-    add_fee_to_payload, ensure_stripe_token, get_amount_info)
+    add_fee_to_payload, ensure_stripe_token, get_amount_info
+)
 
 
 def _handle_stripe_error(charge_data):

@@ -2,7 +2,6 @@ sudo: false
 language: python
 cache: pip
 python:
-  - "2.7"
   - "3.4"
 install:
   - pip install -U pip setuptools
@@ -10,5 +9,8 @@ install:
   - pip install shuup
   - pip install -r requirements-test.txt
 script:
-  - py.test -ra -vvv --nomigrations tests --cov
-after_success: codecov
+  - flake8 shuup_stripe/
+  - isort --check-only
+  - py.test -ra -vvv --nomigrations shuup_stripe_tests --cov shuup_stripe
+after_success:
+  - codecov

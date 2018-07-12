@@ -3,13 +3,14 @@
 #
 # Copyright (c) 2012-2018, Shuup Inc. All rights reserved.
 #
-# This source code is licensed under the AGPLv3 license found in the
+# This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import FormView
 from shuup.front.checkout import (
-    BasicServiceCheckoutPhaseProvider, CheckoutPhaseViewMixin)
+    BasicServiceCheckoutPhaseProvider, CheckoutPhaseViewMixin
+)
 from shuup.utils.excs import Problem
 
 from .checkout_forms import StripeTokenForm

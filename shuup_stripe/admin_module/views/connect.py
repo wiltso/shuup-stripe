@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012-2018, Shuup Inc. All rights reserved.
 #
-# This source code is licensed under the AGPLv3 license found in the
+# This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
 import json
 
@@ -13,7 +13,8 @@ from django.views.generic import TemplateView
 from shuup import configuration
 
 from shuup_stripe.utils import (
-    ensure_stripe_method_for_shop, get_stripe_connect_url)
+    ensure_stripe_method_for_shop, get_stripe_connect_url
+)
 
 
 class StripeConnectView(TemplateView):

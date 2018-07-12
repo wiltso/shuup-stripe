@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012-2018, Shuup Inc. All rights reserved.
 #
-# This source code is licensed under the AGPLv3 license found in the
+# This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
 import os
 import tempfile
@@ -97,3 +97,18 @@ STRIPE_OAUTH_CLIENT_ID = "sk_test_aasdf"
 STRIPE_CONNECT_FEE_PERCENTAGE = None
 
 STRIPE_OAUTH_REDIRECTOR = "shuup_stripe.redirector:StripeRedirector"
+
+MIDDLEWARE_CLASSES = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shuup.front.middleware.ProblemMiddleware',
+    'shuup.core.middleware.ShuupMiddleware',
+    'shuup.front.middleware.ShuupFrontMiddleware',
+    'shuup.admin.middleware.ShuupAdminMiddleware'
+]
