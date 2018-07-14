@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-10 18:32+0000\n"
+"POT-Creation-Date: 2018-07-18 21:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,28 @@ msgid ""
 "receive payments."
 msgstr ""
 
+msgid "Re-connect Stripe"
+msgstr ""
+
 msgid "Connect Stripe"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Make your payment in Stripe payment service."
+msgstr ""
+
+msgid "Tax Class"
+msgstr ""
+
+msgid "Price"
+msgstr ""
+
+msgid "Price of the service"
 msgstr ""
 
 #, python-format
@@ -74,6 +95,9 @@ msgstr ""
 msgid "Stripe Payment Method"
 msgstr ""
 
+msgid "finalize"
+msgstr ""
+
 msgid "Stripe Payment Method Active"
 msgstr ""
 
@@ -89,6 +113,12 @@ msgstr ""
 msgid ""
 "Cannot connect with Stripe. Please ask your service provider to re-configure "
 "your shop."
+msgstr ""
+
+msgid "Stripe has now been connected. Please fill the form below to continue."
+msgstr ""
+
+msgid "Finalize connection"
 msgstr ""
 
 #, python-format

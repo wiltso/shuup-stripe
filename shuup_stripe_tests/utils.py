@@ -5,15 +5,24 @@
 #
 # This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
-from django.shortcuts import redirect
+from bs4 import BeautifulSoup
+from django.test.client import Client
 from django.utils.timezone import now
 from shuup.testing.factories import (
     create_order_with_product, get_default_product, get_default_supplier,
     get_default_tax_class
 )
-from shuup.utils.http import retry_request
 
-from shuup_stripe.redirector import StripeRedirector
+
+class SmartClient(Client):
+    def soup(self, path, data=None, method="get"):
+        response = getattr(self, method)(path=path, data=data)
+        assert 200 <= response.status_code <= 299, "Valid status"
+        return BeautifulSoup(response.content, "lxml")
+
+    def response_and_soup(self, path, data=None, method="get"):
+        response = getattr(self, method)(path=path, data=data)
+        return (response, BeautifulSoup(response.content, "lxml"))
 
 
 def create_order_for_stripe(stripe_payment_processor, identifier=None, unit_price=100):
@@ -35,6 +44,7 @@ def create_order_for_stripe(stripe_payment_processor, identifier=None, unit_pric
 
 
 def get_stripe_token(stripe_payment_processor):
+    from shuup.utils.http import retry_request
     return retry_request(
         method="post",
         url="https://api.stripe.com/v1/tokens",
@@ -46,8 +56,3 @@ def get_stripe_token(stripe_payment_processor):
             "card[cvc]": 666,
         }
     ).json()
-
-
-class GoogleRedirector(StripeRedirector):
-    def redirect(self, **kwargs):
-        return redirect("https://www.google.com")

@@ -5,17 +5,13 @@
 #
 # This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
-import json
-
 import stripe
-from django.conf import settings
 from django.utils.translation import ugettext as _
-from shuup import configuration
 from shuup.utils.excs import Problem
-from shuup.utils.http import retry_request
 
 from shuup_stripe.utils import (
-    add_fee_to_payload, ensure_stripe_token, get_amount_info
+    add_fee_to_payload, ensure_stripe_token, get_amount_info,
+    get_stripe_oauth_data
 )
 
 
@@ -53,6 +49,7 @@ class StripeCharger(object):
             }
             return self._stripe_connect_charge(input_data)
 
+        from shuup.utils.http import retry_request
         return retry_request(
             method="post",
             url="https://api.stripe.com/v1/charges",
@@ -67,7 +64,7 @@ class StripeCharger(object):
     def refresh_token(self):
         shop = self.order.shop
         ensure_stripe_token(shop)
-        return json.loads(configuration.get(shop, settings.STRIPE_CONNECT_OAUTH_DATA_KEY, "{}"))
+        return get_stripe_oauth_data(shop)
 
     def _stripe_connect_charge(self, input_data):
         stripe.api_key = self.secret_key
