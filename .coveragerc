@@ -1,2 +1,3 @@
 [run]
 source = shuup_stripe
+omit = shuup_stripe/migrations/*,shuup_stripe/__init__.py

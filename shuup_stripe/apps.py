@@ -18,10 +18,10 @@ class ShuupStripeAppConfig(shuup.apps.AppConfig):
             "shuup_stripe.checkout_phase:StripeCheckoutPhaseProvider",
         ],
         "service_provider_admin_form": [
-            "shuup_stripe.admin_forms:StripeCheckoutAdminForm",
+            "shuup_stripe.admin_module.forms:StripeCheckoutAdminForm",
         ],
         "payment_processor_wizard_form_def": [
-            "shuup_stripe.admin_forms:StripeCheckoutWizardFormDef",
+            "shuup_stripe.admin_module.forms:StripeCheckoutWizardFormDef",
         ],
         "front_urls_pre": [
             "shuup_stripe.urls:urlpatterns"

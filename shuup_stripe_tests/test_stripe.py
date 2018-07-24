@@ -7,9 +7,12 @@
 # LICENSE file in the root directory of this source tree.
 import os
 
+import mock
 import pytest
+from django.core.urlresolvers import reverse
 from shuup.front.basket import get_basket
 from shuup.testing.factories import get_default_shop, get_default_tax_class
+from shuup.testing.utils import apply_request_middleware
 from shuup.utils.excs import Problem
 
 from shuup_stripe.checkout_phase import StripeCheckoutPhase
@@ -62,26 +65,25 @@ def test_stripe_bogus_data_fails(rf, stripe_payment_processor):
 
 
 @pytest.mark.django_db
-def test_stripe_checkout_phase(rf, stripe_payment_processor):
+def test_stripe_checkout_phase(rf):
     request = rf.get("/")
     request.shop = get_default_shop()
     request.session = {}
     request.basket = get_basket(request)
-    service = stripe_payment_processor.create_service(
-        None, shop=request.shop, tax_class=get_default_tax_class(),
-        enabled=True)
-    checkout_phase = StripeCheckoutPhase(
-        request=request, service=service)
+
+    payment_processor = StripeCheckoutPaymentProcessor.objects.create(secret_key="secret", publishable_key="12", name="Stripe")
+    service = payment_processor.create_service(None, shop=request.shop, tax_class=get_default_tax_class(), enabled=True)
+    checkout_phase = StripeCheckoutPhase(request=request, service=service)
     assert not checkout_phase.is_valid()  # We can't be valid just yet
     context = checkout_phase.get_context_data()
     assert context["stripe"]
     request.method = "POST"
-    token = get_stripe_token(stripe_payment_processor)
     request.POST = {
-        "stripeToken": token["id"],
-        "stripeTokenType": token["type"],
-        "stripeTokenEmail": token.get("email"),
+        "stripeToken": "1234",
+        "stripeTokenType": "12442",
+        "stripeTokenEmail": "4212342",
     }
+    checkout_phase.get_success_url = lambda: reverse("shuup_admin:home")
     checkout_phase.post(request)
     assert checkout_phase.is_valid()  # We should be valid now
     assert request.session  # And things should've been saved into the session
@@ -90,17 +92,42 @@ def test_stripe_checkout_phase(rf, stripe_payment_processor):
 
 
 @pytest.mark.django_db
+def test_stripe_process_order(rf):
+    with mock.patch("shuup_stripe.module.StripeCharger") as mocked:
+        request = rf.post("/")
+        shop = get_default_shop()
+        payment_processor = StripeCheckoutPaymentProcessor.objects.create(secret_key="secret", publishable_key="12")
+        service = payment_processor.create_service(None, shop=shop, tax_class=get_default_tax_class(), enabled=True)
+        order = create_order_for_stripe(payment_processor)
+        payment_processor.process_payment_return_request(service, order, request)
+
+    mocked.assert_called_once()
+
+
+@pytest.mark.django_db
+def test_stripe_checkout_phase_mocked(rf):
+    shop = get_default_shop()
+    request = apply_request_middleware(rf.post("/"))
+    payment_processor = StripeCheckoutPaymentProcessor.objects.create(secret_key="secret", publishable_key="12", name="Stripe")
+    service = payment_processor.create_service(None, shop=shop, tax_class=get_default_tax_class(), enabled=True, name="Stripe", description="desc")
+    checkout_phase = StripeCheckoutPhase(request=request, service=service)
+    stripe_context = checkout_phase.get_stripe_context()
+    assert stripe_context["publishable_key"] == payment_processor.publishable_key
+    assert stripe_context["name"] == shop.name
+    assert stripe_context["description"] == "Purchase"
+
+    assert not checkout_phase.is_valid()
+
+
+@pytest.mark.django_db
 def test_stripe_checkout_phase_with_misconfigured_module(rf):
-    stripe_payment_processor = (
-        StripeCheckoutPaymentProcessor.objects.create())
+    payment_processor = StripeCheckoutPaymentProcessor.objects.create()
     request = rf.get("/")
     request.shop = get_default_shop()
     request.session = {}
     request.basket = get_basket(request)
-    service = stripe_payment_processor.create_service(
-        None, shop=request.shop, tax_class=get_default_tax_class(),
-        enabled=True)
-    checkout_phase = StripeCheckoutPhase(
-        request=request, service=service)
+    service = payment_processor.create_service(None, shop=request.shop, tax_class=get_default_tax_class(), enabled=True)
+    checkout_phase = StripeCheckoutPhase(request=request, service=service)
+
     with pytest.raises(Problem):
         checkout_phase.get_context_data()

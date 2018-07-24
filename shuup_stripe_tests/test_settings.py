@@ -8,12 +8,17 @@
 import os
 import tempfile
 
+import environ
+
+env = environ.Env(DEBUG=(bool, False))
+
 SECRET_KEY = "x"
 
 
 INSTALLED_APPS = (
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
     "easy_thumbnails",
     "filer",
     "shuup.core",
@@ -88,15 +93,13 @@ TEMPLATES = [
 STRIPE_CONNECT_OAUTH_DATA_KEY = "stripe_connect_oauth_data"
 
 # platform level secrets for connect to use
-STRIPE_SECRET_KEY = "sk_test_aasdf"
-STRIPE_PUBLIC_KEY = "sk_test_aasdf"
-STRIPE_CONNECT_REDIRECT_URI = "https://www.stripe.com"
-STRIPE_CONNECT_REDIRECT_ADMIN_URI = None
-STRIPE_OAUTH_CLIENT_ID = "sk_test_aasdf"
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default="sk_test_aasdf")
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY', default="sk_test_aasdf")
+STRIPE_OAUTH_CLIENT_ID = env('STRIPE_OAUTH_CLIENT_ID', default="sk_test_aasdf")
+
+STRIPE_URL_PROVIDER = "shuup_stripe.url_provider:StripeURLProvider"
 
 STRIPE_CONNECT_FEE_PERCENTAGE = None
-
-STRIPE_OAUTH_REDIRECTOR = "shuup_stripe.redirector:StripeRedirector"
 
 MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',

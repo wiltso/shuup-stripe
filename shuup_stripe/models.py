@@ -10,8 +10,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from shuup.core.models import PaymentProcessor, ServiceChoice
 
-from .module import StripeCharger
-
 
 class StripeCheckoutPaymentProcessor(PaymentProcessor):
     secret_key = models.CharField(max_length=100, verbose_name=_("Secret Key"))
@@ -26,8 +24,6 @@ class StripeCheckoutPaymentProcessor(PaymentProcessor):
 
     def process_payment_return_request(self, service, order, request):
         if not order.is_paid():
-            charger = StripeCharger(
-                order=order,
-                secret_key=self.secret_key
-            )
+            from shuup_stripe.module import StripeCharger
+            charger = StripeCharger(order=order, secret_key=self.secret_key)
             charger.create_charge()
