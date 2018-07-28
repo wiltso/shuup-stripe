@@ -30,16 +30,26 @@ class StripeAdminModule(AdminModule):
             connected = (data and data["id"] == conf["stripe_user_id"])
 
         if kind == "setup":
+            actions = [
+                {
+                    "text": _("Re-connect Stripe") if connected else _("Connect Stripe"),
+                    "url": reverse_lazy("shuup_admin:shuup_stripe.connect"),
+                }
+            ]
+
+            if connected:
+                actions.append({
+                    "text": _("Edit connection"),
+                    "url": reverse_lazy("shuup_admin:shuup_stripe.finalize"),
+                })
+
             yield SimpleHelpBlock(
                 priority=0.1,  # not the first but pretty high...
                 text=_("Stripe"),
                 description_html=True,
                 description=_("Connect your Stripe account to Shuup store. "
                               "Once connected, you are able to receive payments."),
-                actions=[{
-                    "text": _("Re-connect Stripe") if connected else _("Connect Stripe"),
-                    "url": reverse_lazy("shuup_admin:shuup_stripe.connect"),
-                }],
+                actions=actions,
                 icon_url="stripe/stripe_blue.svg",
                 done=connected,
             )

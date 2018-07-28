@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-18 21:00+0000\n"
+"POT-Creation-Date: 2018-07-28 15:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Re-connect Stripe"
+msgstr ""
+
+msgid "Connect Stripe"
+msgstr ""
+
+msgid "Edit connection"
+msgstr ""
+
 msgid "Stripe"
 msgstr ""
 
 msgid ""
 "Connect your Stripe account to Shuup store. Once connected, you are able to "
 "receive payments."
-msgstr ""
-
-msgid "Re-connect Stripe"
-msgstr ""
-
-msgid "Connect Stripe"
 msgstr ""
 
 msgid "Name"

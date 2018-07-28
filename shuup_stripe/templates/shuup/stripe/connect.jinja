@@ -23,14 +23,17 @@
                 </tr>
             </table>
             <div>
-            {% if stripe_connect_url %}
-                <a class="btn btn-primary" href="{{ stripe_connect_url }}" class="stripe-connect light-blue" id="stripe-connect-btn">
-                    <span>{% trans %}Re-Connect with Stripe{% endtrans %}</span>
-                </a>
-            {% endif %}
-            <a class="btn btn-primary" href="https://dashboard.stripe.com/" class="stripe-connect" target="_blank">
+                {% if stripe_connect_url %}
+                    <a href="{{ stripe_connect_url }}" class="stripe-connect light-blue" id="stripe-connect-btn">
+                        <span>{% trans %}Re-Connect with Stripe{% endtrans %}</span>
+                    </a>
+                {% endif %}
+                <a href="https://dashboard.stripe.com/" class="stripe-connect" target="_blank">
                     <span>{% trans %}Stripe Dashboard{% endtrans %}</span>
-            </a>
+                </a>
+                <a class="stripe-connect" href="{{ url("shuup_admin:shuup_stripe.finalize") }}">
+                    <span>{% trans %}Edit connection{% endtrans %}</span>
+                </a>
             </div>
         {% else %}
             <h1>{% trans %}Connect with Stripe{% endtrans %}</h1>
