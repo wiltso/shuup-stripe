@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from shuup.apps.provides import get_provide_objects
 from shuup.core.models import PaymentProcessor, ServiceChoice
 
 
@@ -17,13 +18,16 @@ class StripeCheckoutPaymentProcessor(PaymentProcessor):
         max_length=100, verbose_name=_("Publishable Key"))
 
     def get_service_choices(self):
+        stripe_chargers = get_provide_objects("stripe_charger")
         return [
-            ServiceChoice('stripe', _("Stripe Checkout")),
-            ServiceChoice('stripe_connect', _("Stripe Connect")),
+            ServiceChoice(stripe_charger.identifier, stripe_charger.name)
+            for stripe_charger in stripe_chargers
         ]
 
     def process_payment_return_request(self, service, order, request):
         if not order.is_paid():
-            from shuup_stripe.module import StripeCharger
-            charger = StripeCharger(order=order, secret_key=self.secret_key)
-            charger.create_charge()
+            stripe_chargers = get_provide_objects("stripe_charger")
+            for stripe_charger in stripe_chargers:
+                if stripe_charger.identifier == service.choice_identifier:
+                    charger = stripe_charger(order=order, secret_key=self.secret_key)
+                    charger.create_charge()

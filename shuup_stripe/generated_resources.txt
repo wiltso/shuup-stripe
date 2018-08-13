@@ -1,2 +1,0 @@
-static/shuup_stripe/js/shuup_stripe.js
-static/shuup_stripe/css/shuup_stripe_admin.css

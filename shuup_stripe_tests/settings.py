@@ -9,11 +9,11 @@ import os
 import tempfile
 
 import environ
+from shuup_workbench.settings.utils import get_disabled_migrations
 
 env = environ.Env(DEBUG=(bool, False))
 
 SECRET_KEY = "x"
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -43,16 +43,7 @@ DATABASES = {
     }
 }
 
-
-class DisableMigrations(object):
-    def __contains__(self, item):
-        return True
-
-    def __getitem__(self, item):
-        return "notmigrations"
-
-
-MIGRATION_MODULES = DisableMigrations()
+MIGRATION_MODULES = get_disabled_migrations()
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "var", "media")
 
 STATIC_URL = "static/"
@@ -88,18 +79,6 @@ TEMPLATES = [
         "NAME": "jinja2",
     },
 ]
-
-# This is being used the pull connect data from configuration
-STRIPE_CONNECT_OAUTH_DATA_KEY = "stripe_connect_oauth_data"
-
-# platform level secrets for connect to use
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default="sk_test_aasdf")
-STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY', default="sk_test_aasdf")
-STRIPE_OAUTH_CLIENT_ID = env('STRIPE_OAUTH_CLIENT_ID', default="sk_test_aasdf")
-
-STRIPE_URL_PROVIDER = "shuup_stripe.url_provider:StripeURLProvider"
-
-STRIPE_CONNECT_FEE_PERCENTAGE = None
 
 MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',

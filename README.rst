@@ -56,9 +56,3 @@ To run tests, use command:
 .. code:: sh
 
    py.test -v
-
-or use preset which builds coverage as well:
-
-.. code:: sh
-
-   npm test
