@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-28 15:28+0000\n"
+"POT-Creation-Date: 2018-08-13 14:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,41 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Re-connect Stripe"
-msgstr ""
-
-msgid "Connect Stripe"
-msgstr ""
-
-msgid "Edit connection"
-msgstr ""
-
-msgid "Stripe"
-msgstr ""
-
-msgid ""
-"Connect your Stripe account to Shuup store. Once connected, you are able to "
-"receive payments."
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
-msgid "Make your payment in Stripe payment service."
-msgstr ""
-
-msgid "Tax Class"
-msgstr ""
-
-msgid "Price"
-msgstr ""
-
-msgid "Price of the service"
-msgstr ""
 
 #, python-format
 msgid "Please configure Stripe keys for payment processor %s."
@@ -65,14 +30,21 @@ msgstr ""
 msgid "Publishable Key"
 msgstr ""
 
-msgid "Stripe Checkout"
+#, python-format
+msgid "Stripe: %(failure_message)s (%(failure_code)s)"
 msgstr ""
 
-msgid "Stripe Connect"
+msgid "Stripe Checkout"
 msgstr ""
 
 #, python-brace-format
 msgid "Payment for order {id} on {shop}"
+msgstr ""
+
+msgid "Stripe Charge does not say 'paid'"
+msgstr ""
+
+msgid "Stripe Charge"
 msgstr ""
 
 msgid "We use Stripe for secure payment handling."
@@ -81,47 +53,6 @@ msgstr ""
 msgid ""
 "Click the button below to enter your card details. You will only be charged "
 "when your order completes."
-msgstr ""
-
-msgid "Stripe Account Status"
-msgstr ""
-
-msgid "Account connected"
-msgstr ""
-
-msgid "Yes"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Stripe Payment Method"
-msgstr ""
-
-msgid "finalize"
-msgstr ""
-
-msgid "Stripe Payment Method Active"
-msgstr ""
-
-msgid "Re-Connect with Stripe"
-msgstr ""
-
-msgid "Stripe Dashboard"
-msgstr ""
-
-msgid "Connect with Stripe"
-msgstr ""
-
-msgid ""
-"Cannot connect with Stripe. Please ask your service provider to re-configure "
-"your shop."
-msgstr ""
-
-msgid "Stripe has now been connected. Please fill the form below to continue."
-msgstr ""
-
-msgid "Finalize connection"
 msgstr ""
 
 #, python-format

@@ -5,8 +5,8 @@
 #
 # This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
-from bs4 import BeautifulSoup
-from django.test.client import Client
+from uuid import uuid4
+
 from django.utils.timezone import now
 from shuup.testing.factories import (
     create_order_with_product, get_default_product, get_default_supplier,
@@ -14,18 +14,7 @@ from shuup.testing.factories import (
 )
 
 
-class SmartClient(Client):
-    def soup(self, path, data=None, method="get"):
-        response = getattr(self, method)(path=path, data=data)
-        assert 200 <= response.status_code <= 299, "Valid status"
-        return BeautifulSoup(response.content, "lxml")
-
-    def response_and_soup(self, path, data=None, method="get"):
-        response = getattr(self, method)(path=path, data=data)
-        return (response, BeautifulSoup(response.content, "lxml"))
-
-
-def create_order_for_stripe(stripe_payment_processor, identifier=None, unit_price=100):
+def create_order_for_stripe(stripe_payment_processor, identifier="stripe", unit_price=100):
     product = get_default_product()
     supplier = get_default_supplier()
     order = create_order_with_product(
@@ -38,7 +27,9 @@ def create_order_for_stripe(stripe_payment_processor, identifier=None, unit_pric
     order.cache_prices()
     assert order.taxless_total_price.value > 0
     if not order.payment_data:
-        order.payment_data = {}
+        order.payment_data = {
+            "stripe": dict(token=uuid4().hex)
+        }
     order.save()
     return order
 
