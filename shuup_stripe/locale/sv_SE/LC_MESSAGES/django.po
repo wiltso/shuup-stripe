@@ -44,8 +44,6 @@ msgstr "Betalning för beställning {id} i {shop}"
 msgid "Stripe Charge does not say 'paid'"
 msgstr ""
 
-#, fuzzy
-#| msgid "Stripe Checkout"
 msgid "Stripe Charge"
 msgstr "Stripe-betalning"
 
