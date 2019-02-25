@@ -32,13 +32,18 @@ class StripeCharger(object):
         self.order = order
 
     def _send_request(self):
-        stripe_token = self.order.payment_data["stripe"]["token"]
+        stripe_token = self.order.payment_data["stripe"].get("token")
+        stripe_customer = self.order.payment_data["stripe"].get("customer")
         input_data = {
-            "source": stripe_token,
             "description": _("Payment for order {id} on {shop}").format(
                 id=self.order.identifier, shop=self.order.shop,
-            ),
+            )
         }
+        if stripe_token:
+            input_data["source"] = stripe_token
+        elif stripe_customer:
+            input_data["customer"] = stripe_customer
+
         input_data.update(get_amount_info(self.order.taxful_total_price))
 
         from shuup.utils.http import retry_request

@@ -1,22 +1,77 @@
 {% extends "shuup/front/checkout/_base.jinja" %}
+{% from "shuup/front/macros/general.jinja" import render_field with context %}
 
-{% block checkout_phase_content %}
-<form role="form" method="post" action="{{ url('shuup:checkout', phase="payment") }}">
+{% macro render_form() %}
+    <form role="form" method="post" action="{{ url('shuup:checkout', phase="payment") }}">
     {% csrf_token %}
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <p>{% trans %}We use Stripe for secure payment handling.{% endtrans %}</p>
-            <p>{% trans %}Click the button below to enter your card details. You will only be charged when your order completes.{% endtrans %}</p>
+    {{ caller() }}
+    </form>
+{% endmacro %}
+
+
+{% macro render_stripe_payment() %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>{% trans %}Click the button below to enter your card details. You will only be charged when your order completes.{% endtrans %}</p>
+        {% call render_form() %}
             <script
-                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                src="https://checkout.stripe.com/checkout.js"
+                class="stripe-button"
                 data-key="{{ stripe.publishable_key }}"
                 data-amount="{{ stripe.amount }}"
                 data-name="{{ stripe.name }}"
                 data-currency="{{ stripe.currency }}"
                 data-description="{{ stripe.description }}">
             </script>
-        </div>
+        {% endcall %}
     </div>
-</form>
-{% endblock %}
+</div>
+{% endmacro %}
 
+{% macro render_saved_stripe_payment() %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>{% trans %}Use saved card details by clicking button below:{% endtrans %}</p>
+        {% for data in stripe_customer_data.sources.data %}
+            {% call render_form() %}
+                <div class="text-center">
+                    <input type="hidden" name="stripeCustomer" value="{{ stripe_customer_data.id }}" />
+                    {% if customer and customer.email %}
+                        <input type="hidden" name="stripeEmail" value="{{ customer.email }}" />
+                    {% endif %}
+                    <button type="submit" class="stripe-button-el">
+                        <span>
+                            {% if data.object == "card" %}
+                                <i class="fa fa-credit-card"></i>
+                                {{ _("Pay with {brand} **** {last4}").format(
+                                    brand=data.brand,
+                                    funding=data.funding,
+                                    last4=data.last4,
+                                    exp_month=data.exp_month,
+                                    exp_year=data.exp_year).strip() }}
+                            {% else %}
+                                {{ _("Pay with {funding} {object}").format(funding=data.funding, object=data.object) }}
+                            {% endif %}
+                        </div>
+                    </button>
+                </div>
+            {% endcall %}
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+{% block checkout_phase_content %}
+    <div class="row">
+    {% set has_saved_customer_data = (stripe_customer_data and stripe_customer_data.sources and stripe_customer_data.sources.data) %}
+        <div class="col-xs-12 text-center">
+            <p>{% trans %}We use Stripe for secure payment handling.{% endtrans %}</p>
+        </div>
+        {% if has_saved_customer_data %}
+            <div class="col-md-6 text-center">{{ render_stripe_payment() }}</div>
+            <div class="col-md-6 text-center">{{ render_saved_stripe_payment() }}</div>
+        {% else %}
+            <div class="col-md-12 text-center">{{ render_stripe_payment() }}</div>
+        {% endif %}
+    </div>
+{% endblock %}

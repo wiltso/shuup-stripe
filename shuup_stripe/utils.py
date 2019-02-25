@@ -5,6 +5,10 @@
 #
 # This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
+from shuup.utils.importing import cached_load
+
+from shuup_stripe.models import StripeCheckoutPaymentProcessor
+
 ZERO_DECIMAL_CURRENCIES = (
     # https://support.stripe.com/questions/which-zero-decimal-currencies-does-stripe-support
     "BIF", "CLP", "DJF", "GNF", "JPY", "KMF", "KRW", "MGA",
@@ -18,3 +22,17 @@ def get_amount_info(amount):
         "currency": amount.currency,
         "amount": int(amount.value * multiplier),
     }
+
+
+def get_stripe_processor(request):
+    stripe_processor_provider = cached_load("SHUUP_STRIPE_PROCESSOR_PROVIDER")
+    return stripe_processor_provider.get_stripe_processor(request)
+
+
+class DefaultStripeProcessorProvider(object):
+    """
+    Returns the first enabled payment processor
+    """
+    @classmethod
+    def get_stripe_processor(cls, request):
+        return StripeCheckoutPaymentProcessor.objects.filter(enabled=True).first()

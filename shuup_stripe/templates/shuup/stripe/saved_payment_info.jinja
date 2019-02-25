@@ -1,0 +1,57 @@
+{% extends "shuup/front/dashboard/dashboard.jinja" %}
+
+{% block title %}{% trans %}Saved Card{% endtrans %}{% endblock %}
+{% block content_title %}{% trans %}Saved Card{% endtrans %}{% endblock %}
+
+{% block breadcrumb %}
+    {% call macros.breadcrumb() %}
+        {{ macros.render_breadcrumb_item("/", _("Home")) }}
+        {{ macros.render_breadcrumb_item(url("shuup:dashboard"), _("Dashboard")) }}
+        {{ macros.render_breadcrumb_item(None, _("Saved Card"), True) }}
+    {% endcall %}
+{% endblock %}
+
+{% block dashboard_content %}
+    {% set has_saved_customer_data = (stripe_customer_data and stripe_customer_data.sources and stripe_customer_data.sources.data) %}
+    <div class="saved-stripe-customer">
+        <p class="text-center">{% trans %}Save your card details for a faster checkout. You can change or delete it at any time.{% endtrans %}</p>
+        {% if has_saved_customer_data %}
+            {% for data in stripe_customer_data.sources.data %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>{{ _("Type") }}</dt>
+                            <dd>{{ data.brand ~ " " ~ data.funding ~ " " ~ data.object }}</dd>
+                            {% if data.object == "card" %}
+                                <dt>{{ _("Expires") }}</dt>
+                                <dd>{{ data.exp_month ~ " / " ~ data.exp_year }}</dd>
+                                <dt>{{ _("Number") }}</dt>
+                                <dd>{{ "**** " ~ data.last4 }}</dd>
+                            {% endif %}
+                        <dl>
+                        <div class="text-center">
+                            <form method="post" action="{{ url('shuup:stripe_delete_saved_payment') }}">
+                                {% csrf_token %}
+                                <input type="hidden" name="source_id" value="{{ data.id }}" />
+                                <button class="btn btn-danger">{{ _("Delete")}}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form role="form" method="post" action="">
+            {% csrf_token %}
+            <div class="text-center">
+                <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="{{ stripe_processor.publishable_key }}"
+                    data-label="{{ _('Change payment details') if has_saved_customer_data else _('Add payment details') }}"
+                    data-email="{{ customer.email }}"
+                    data-panel-label="{{ _('Save payment details') }}">
+                </script>
+            </div>
+        </form>
+    </div>
+{% endblock %}
