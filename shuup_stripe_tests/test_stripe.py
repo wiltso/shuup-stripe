@@ -80,8 +80,7 @@ def test_stripe_bogus_data_fails(rf, stripe_payment_processor):
 
 @pytest.mark.django_db
 def test_stripe_checkout_phase(rf):
-    request = rf.get("/")
-    request.shop = get_default_shop()
+    request = apply_request_middleware(rf.post("/"), shop=get_default_shop())
     request.session = {}
     request.basket = get_basket(request)
 
@@ -138,8 +137,7 @@ def test_stripe_checkout_phase_mocked(rf):
 @pytest.mark.django_db
 def test_stripe_checkout_phase_with_misconfigured_module(rf):
     payment_processor = StripeCheckoutPaymentProcessor.objects.create()
-    request = rf.get("/")
-    request.shop = get_default_shop()
+    request = apply_request_middleware(rf.get("/"), shop=get_default_shop())
     request.session = {}
     request.basket = get_basket(request)
     service = payment_processor.create_service("stripe", shop=request.shop, tax_class=get_default_tax_class(), enabled=True)

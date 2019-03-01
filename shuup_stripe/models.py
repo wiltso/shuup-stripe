@@ -31,3 +31,12 @@ class StripeCheckoutPaymentProcessor(PaymentProcessor):
                 if stripe_charger.identifier == service.choice_identifier:
                     charger = stripe_charger(order=order, secret_key=self.secret_key)
                     charger.create_charge()
+
+
+class StripeCustomer(models.Model):
+    contact = models.OneToOneField("shuup.Contact", verbose_name=_("contact"), related_name="stripe_customer")
+    customer_token = models.CharField(max_length=100, verbose_name=_("Stripe customer ID"))
+
+    class Meta:
+        verbose_name = _("Stripe Customer")
+        verbose_name_plural = _("Stripe Customers")

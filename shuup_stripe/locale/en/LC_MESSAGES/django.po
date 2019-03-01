@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-13 14:15+0000\n"
+"POT-Creation-Date: 2019-02-25 18:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Either token or curstomer should be informed."
+msgstr ""
+
 #, python-format
 msgid "Please configure Stripe keys for payment processor %s."
 msgstr ""
@@ -24,10 +27,25 @@ msgstr ""
 msgid "Purchase"
 msgstr ""
 
+msgid "Saved Card"
+msgstr ""
+
 msgid "Secret Key"
 msgstr ""
 
 msgid "Publishable Key"
+msgstr ""
+
+msgid "contact"
+msgstr ""
+
+msgid "Stripe customer ID"
+msgstr ""
+
+msgid "Stripe Customer"
+msgstr ""
+
+msgid "Stripe Customers"
 msgstr ""
 
 #, python-format
@@ -47,12 +65,55 @@ msgstr ""
 msgid "Stripe Charge"
 msgstr ""
 
-msgid "We use Stripe for secure payment handling."
-msgstr ""
-
 msgid ""
 "Click the button below to enter your card details. You will only be charged "
 "when your order completes."
+msgstr ""
+
+msgid "Use saved card details by clicking button below:"
+msgstr ""
+
+#, python-brace-format
+msgid "Pay with {brand} **** {last4}"
+msgstr ""
+
+#, python-brace-format
+msgid "Pay with {funding} {object}"
+msgstr ""
+
+msgid "We use Stripe for secure payment handling."
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid ""
+"Save your card details for a faster checkout. You can change or delete it at "
+"any time."
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Expires"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Change payment details"
+msgstr ""
+
+msgid "Add payment details"
+msgstr ""
+
+msgid "Save payment details"
 msgstr ""
 
 #, python-format
@@ -63,4 +124,16 @@ msgid "Don't have a Stripe account?"
 msgstr ""
 
 msgid "Register now"
+msgstr ""
+
+msgid "Payment details successfully saved."
+msgstr ""
+
+msgid "Error while saving payment details."
+msgstr ""
+
+msgid "Unknown error while removing payment details."
+msgstr ""
+
+msgid "Payment successfully removed."
 msgstr ""

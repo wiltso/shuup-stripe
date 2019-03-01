@@ -25,5 +25,11 @@ class ShuupStripeAppConfig(shuup.apps.AppConfig):
         ],
         "stripe_charger": [
             "shuup_stripe.module:StripeCharger"
+        ],
+        "customer_dashboard_items": [
+            "shuup_stripe.dashboard_items:SavedPaymentInfoDashboardItem"
+        ],
+        "front_urls": [
+            "shuup_stripe.urls:urlpatterns"
         ]
     }
