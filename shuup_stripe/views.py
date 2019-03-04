@@ -14,6 +14,7 @@ from django.http.response import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 from django.views.generic.base import View
+from shuup.core.models import get_person_contact
 from shuup.front.views.dashboard import DashboardViewMixin
 
 from shuup_stripe.models import StripeCustomer
@@ -31,16 +32,17 @@ class StripeSavedPaymentInfoView(DashboardViewMixin, TemplateView):
         stripe_customer = None
 
         if stripe_token:
+            person_contact = get_person_contact(self.request.user)
             stripe.api_key = stripe_processor.secret_key
-            stripe_customer = StripeCustomer.objects.filter(contact=self.request.customer).first()
+            stripe_customer = StripeCustomer.objects.filter(contact=person_contact).first()
 
             try:
                 if stripe_customer:
                     stripe.Customer.modify(stripe_customer.customer_token, source=stripe_token)
                 else:
-                    customer = stripe.Customer.create(source=stripe_token, email=request.customer.email)
+                    customer = stripe.Customer.create(source=stripe_token, email=person_contact.email)
                     stripe_customer = StripeCustomer.objects.create(
-                        contact=self.request.customer,
+                        contact=person_contact,
                         customer_token=customer.id
                     )
 
@@ -57,11 +59,12 @@ class StripeSavedPaymentInfoView(DashboardViewMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(StripeSavedPaymentInfoView, self).get_context_data(**kwargs)
+        person_contact = get_person_contact(self.request.user)
         stripe_processor = get_stripe_processor(self.request)
-        stripe_customer = StripeCustomer.objects.filter(contact=self.request.customer).first()
+        stripe_customer = StripeCustomer.objects.filter(contact=person_contact).first()
 
         context["stripe_customer"] = stripe_customer
-        context["customer"] = self.request.customer
+        context["customer"] = person_contact
         context["stripe_processor"] = stripe_processor
 
         if stripe_customer:
@@ -79,7 +82,8 @@ class StripeSavedPaymentInfoView(DashboardViewMixin, TemplateView):
 class StripeDeleteSavedPaymentInfoView(View):
     def post(self, request, *args, **kwargs):
         stripe_processor = get_stripe_processor(request)
-        stripe_customer = StripeCustomer.objects.filter(contact=self.request.customer).first()
+        person_contact = get_person_contact(request.user)
+        stripe_customer = StripeCustomer.objects.filter(contact=person_contact).first()
         source_id = request.POST.get("source_id")
 
         if stripe_customer and source_id:
