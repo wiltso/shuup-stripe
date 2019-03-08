@@ -9,12 +9,14 @@ import mock
 import pytest
 import stripe
 from django.core.urlresolvers import reverse
+from shuup.core import cache
 from shuup.core.models import get_person_contact
 from shuup.front.views.dashboard import DashboardView
 from shuup.testing import factories
 from shuup.testing.utils import apply_request_middleware
 
 from shuup_stripe.models import StripeCheckoutPaymentProcessor, StripeCustomer
+from shuup_stripe.utils import set_saved_card_message
 from shuup_stripe.views import (
     StripeDeleteSavedPaymentInfoView, StripeSavedPaymentInfoView
 )
@@ -57,6 +59,7 @@ def stripe_payment_processor():
 
 @pytest.mark.django_db
 def test_save_card(rf, stripe_payment_processor):
+    cache.clear()
     shop = factories.get_default_shop()
     user = factories.create_random_user()
     contact = get_person_contact(user)
@@ -69,6 +72,13 @@ def test_save_card(rf, stripe_payment_processor):
     response.render()
     content = response.content.decode("utf-8")
     assert "Save your card details for a faster checkout. You can change or delete it at any time." in content
+
+    set_saved_card_message(shop, "ABC1234")
+    response = view(request)
+    response.render()
+    content = response.content.decode("utf-8")
+    assert "Save your card details for a faster checkout. You can change or delete it at any time." not in content
+    assert "ABC1234" in content
 
     def return_stripe_mock_data(*args, **kwargs):
         return StripeCustomerData(**CUSTOMER_MOCK_DATA)
@@ -130,6 +140,8 @@ def test_save_card(rf, stripe_payment_processor):
 
             # error, nothing created
             assert not StripeCustomer.objects.exists()
+
+    cache.clear()
 
 
 @pytest.mark.django_db

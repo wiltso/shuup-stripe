@@ -14,7 +14,12 @@
 {% block dashboard_content %}
     {% set has_saved_customer_data = (stripe_customer_data and stripe_customer_data.sources and stripe_customer_data.sources.data) %}
     <div class="saved-stripe-customer">
-        <p class="text-center">{% trans %}Save your card details for a faster checkout. You can change or delete it at any time.{% endtrans %}</p>
+        {% set custom_message = stripe_utils.get_saved_card_message() %}
+        {% if custom_message %}
+            {{ custom_message|safe }}
+        {% else %}
+            <p class="text-center">{% trans %}Save your card details for a faster checkout. You can change or delete it at any time.{% endtrans %}</p>
+        {% endif %}
         {% if has_saved_customer_data %}
             {% for data in stripe_customer_data.sources.data %}
                 <div class="panel panel-default">

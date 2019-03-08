@@ -5,6 +5,7 @@
 #
 # This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
+from shuup import configuration
 from shuup.utils.importing import cached_load
 
 from shuup_stripe.models import StripeCheckoutPaymentProcessor
@@ -36,3 +37,35 @@ class DefaultStripeProcessorProvider(object):
     @classmethod
     def get_stripe_processor(cls, request):
         return StripeCheckoutPaymentProcessor.objects.filter(enabled=True).first()
+
+
+def set_checkout_payment_phase_message(shop, message):
+    configuration.set(shop, "stripe_checkout_payment_phase_message", message)
+
+
+def get_checkout_payment_phase_message(shop):
+    return configuration.get(shop, "stripe_checkout_payment_phase_message")
+
+
+def set_saved_card_message(shop, message):
+    configuration.set(shop, "stripe_saved_card_message", message)
+
+
+def get_saved_card_message(shop):
+    return configuration.get(shop, "stripe_saved_card_message")
+
+
+def set_checkout_payment_details_message(shop, message):
+    configuration.set(shop, "stripe_checkout_payment_details_message", message)
+
+
+def get_checkout_payment_details_message(shop):
+    return configuration.get(shop, "stripe_checkout_payment_details_message")
+
+
+def set_checkout_saved_card_message(shop, message):
+    configuration.set(shop, "stripe_checkout_saved_card_message", message)
+
+
+def get_checkout_saved_card_message(shop):
+    return configuration.get(shop, "stripe_checkout_saved_card_message")
