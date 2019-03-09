@@ -12,8 +12,13 @@
 {% macro render_stripe_payment() %}
 <div class="panel panel-default">
     <div class="panel-body">
-        <p>{% trans %}Click the button below to enter your card details. You will only be charged when your order completes.{% endtrans %}</p>
         {% call render_form() %}
+            {% set custom_message = stripe_utils.get_checkout_payment_details_message() %}
+            {% if custom_message %}
+                {{ custom_message|safe }}
+            {% else %}
+                <p>{% trans %}Click the button below to enter your card details.{% endtrans %}</p>
+            {% endif %}
             <script
                 src="https://checkout.stripe.com/checkout.js"
                 class="stripe-button"
@@ -21,8 +26,8 @@
                 data-amount="{{ stripe.amount }}"
                 data-name="{{ stripe.name }}"
                 data-currency="{{ stripe.currency }}"
-                data-description="{{ stripe.description }}">
-            </script>
+                data-description="{{ stripe.description }}"
+            ></script>
         {% endcall %}
     </div>
 </div>
@@ -31,7 +36,12 @@
 {% macro render_saved_stripe_payment() %}
 <div class="panel panel-default">
     <div class="panel-body">
-        <p>{% trans %}Use saved card details by clicking button below:{% endtrans %}</p>
+        {% set custom_message = stripe_utils.get_checkout_saved_card_message() %}
+        {% if custom_message %}
+            {{ custom_message|safe }}
+        {% else %}
+            <p>{% trans %}Use saved card details by clicking button below:{% endtrans %}</p>
+        {% endif %}
         {% for data in stripe_customer_data.sources.data %}
             {% call render_form() %}
                 <div class="text-center">
@@ -65,7 +75,12 @@
     <div class="row">
     {% set has_saved_customer_data = (stripe_customer_data and stripe_customer_data.sources and stripe_customer_data.sources.data) %}
         <div class="col-xs-12 text-center">
-            <p>{% trans %}We use Stripe for secure payment handling.{% endtrans %}</p>
+            {% set custom_message = stripe_utils.get_checkout_payment_phase_message() %}
+            {% if custom_message %}
+                {{ custom_message|safe }}
+            {% else %}
+                <p>{% trans %}We use Stripe for secure payment handling. You will only be charged when your order completes.{% endtrans %}</p>
+            {% endif %}
         </div>
         {% if has_saved_customer_data %}
             <div class="col-md-6 text-center">{{ render_stripe_payment() }}</div>

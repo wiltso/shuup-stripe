@@ -31,5 +31,8 @@ class ShuupStripeAppConfig(shuup.apps.AppConfig):
         ],
         "front_urls": [
             "shuup_stripe.urls:urlpatterns"
+        ],
+        "admin_shop_form_part": [
+            "shuup_stripe.admin_module.form_parts.StripeConfigurationFormPart"
         ]
     }

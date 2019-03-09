@@ -1,0 +1,7 @@
+{% from "shuup/admin/macros/general.jinja" import content_block %}
+{% from "shuup/admin/macros/multilanguage.jinja" import render_monolingual_fields %}
+{% set stripe_form = form["stripe_configuration"] %}
+
+{% call content_block(_("Stripe Configuration"), icon="fa-cc-stripe") %}
+    {{ render_monolingual_fields(stripe_form) }}
+{% endcall %}
