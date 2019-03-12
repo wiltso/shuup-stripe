@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-25 18:05+0000\n"
+"POT-Creation-Date: 2019-03-12 23:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,30 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Checkout payment phase message"
+msgstr ""
+
+msgid "Set a custom message to use in checkout payment phase."
+msgstr ""
+
+msgid "Checkout card details message"
+msgstr ""
+
+msgid "Set a custom message to use in card details option when doing checkout."
+msgstr ""
+
+msgid "Checkout saved card message"
+msgstr ""
+
+msgid "Set a custom message to use in saved card option when doing checkout."
+msgstr ""
+
+msgid "Saved card message"
+msgstr ""
+
+msgid "Set a custom message for the saved card section in customer dashboard."
+msgstr ""
 
 msgid "Either token or curstomer should be informed."
 msgstr ""
@@ -65,9 +89,7 @@ msgstr ""
 msgid "Stripe Charge"
 msgstr ""
 
-msgid ""
-"Click the button below to enter your card details. You will only be charged "
-"when your order completes."
+msgid "Click the button below to enter your card details."
 msgstr ""
 
 msgid "Use saved card details by clicking button below:"
@@ -81,7 +103,9 @@ msgstr ""
 msgid "Pay with {funding} {object}"
 msgstr ""
 
-msgid "We use Stripe for secure payment handling."
+msgid ""
+"We use Stripe for secure payment handling. You will only be charged when "
+"your order completes."
 msgstr ""
 
 msgid "Home"
@@ -114,6 +138,9 @@ msgid "Add payment details"
 msgstr ""
 
 msgid "Save payment details"
+msgstr ""
+
+msgid "Stripe Configuration"
 msgstr ""
 
 #, python-format
