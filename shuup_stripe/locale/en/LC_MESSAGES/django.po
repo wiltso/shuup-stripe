@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-12 23:29+0000\n"
+"POT-Creation-Date: 2019-05-13 22:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,6 +39,12 @@ msgid "Saved card message"
 msgstr ""
 
 msgid "Set a custom message for the saved card section in customer dashboard."
+msgstr ""
+
+msgid "Checkout phase title"
+msgstr ""
+
+msgid "Set a custom title for the checkout phase."
 msgstr ""
 
 msgid "Either token or curstomer should be informed."
