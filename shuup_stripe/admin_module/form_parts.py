@@ -14,8 +14,9 @@ from shuup.admin.forms.widgets import TextEditorWidget
 
 from shuup_stripe.utils import (
     get_checkout_payment_details_message, get_checkout_payment_phase_message,
-    get_checkout_saved_card_message, get_saved_card_message,
-    set_checkout_payment_details_message, set_checkout_payment_phase_message,
+    get_checkout_phase_title, get_checkout_saved_card_message,
+    get_saved_card_message, set_checkout_payment_details_message,
+    set_checkout_payment_phase_message, set_checkout_phase_title,
     set_checkout_saved_card_message, set_saved_card_message
 )
 
@@ -45,6 +46,11 @@ class StripeConfigurationForm(forms.Form):
         widget=TextEditorWidget(),
         required=False
     )
+    checkout_phase_title = forms.CharField(
+        label=_("Checkout phase title"),
+        help_text=_("Set a custom title for the checkout phase."),
+        required=False
+    )
 
 
 class StripeConfigurationFormPart(FormPart):
@@ -60,6 +66,7 @@ class StripeConfigurationFormPart(FormPart):
                 "checkout_payment_details_message": get_checkout_payment_details_message(self.object),
                 "checkout_saved_card_message": get_checkout_saved_card_message(self.object),
                 "saved_card_message": get_saved_card_message(self.object),
+                "checkout_phase_title": get_checkout_phase_title(self.object)
             }
 
         yield TemplatedFormDef(
@@ -82,3 +89,4 @@ class StripeConfigurationFormPart(FormPart):
             set_checkout_payment_details_message(self.object, checkout_payment_details_message)
             set_checkout_saved_card_message(self.object, checkout_saved_card_message)
             set_saved_card_message(self.object, saved_card_message)
+            set_checkout_phase_title(self.object, vendor_form.cleaned_data["checkout_phase_title"])
