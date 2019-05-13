@@ -69,3 +69,11 @@ def set_checkout_saved_card_message(shop, message):
 
 def get_checkout_saved_card_message(shop):
     return configuration.get(shop, "stripe_checkout_saved_card_message")
+
+
+def set_checkout_phase_title(shop, title):
+    configuration.set(shop, "stripe_checkout_phase_title", title)
+
+
+def get_checkout_phase_title(shop):
+    return configuration.get(shop, "stripe_checkout_phase_title")

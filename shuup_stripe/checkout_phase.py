@@ -19,7 +19,7 @@ from shuup_stripe.models import StripeCustomer
 
 from .checkout_forms import StripeTokenForm
 from .models import StripeCheckoutPaymentProcessor
-from .utils import get_amount_info
+from .utils import get_amount_info, get_checkout_phase_title
 
 LOGGER = getLogger(__name__)
 
@@ -27,9 +27,12 @@ LOGGER = getLogger(__name__)
 class StripeCheckoutPhase(CheckoutPhaseViewMixin, FormView):
     service = None  # Injected by the method phase
     identifier = "stripe"
-    title = "Stripe"
     template_name = "shuup/stripe/checkout_phase.jinja"
     form_class = StripeTokenForm
+
+    @property
+    def title(self):
+        return get_checkout_phase_title(self.request.shop) or "Stripe"
 
     def get_stripe_context(self):
         payment_processor = self.service.payment_processor
