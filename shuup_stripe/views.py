@@ -46,7 +46,7 @@ class StripeSavedPaymentInfoView(DashboardViewMixin, TemplateView):
                         customer_token=customer.id
                     )
 
-            except stripe.StripeError:
+            except stripe.error.StripeError:
                 LOGGER.exception("Failed to create Stripe Customer")
                 stripe_customer = None
 
@@ -73,7 +73,7 @@ class StripeSavedPaymentInfoView(DashboardViewMixin, TemplateView):
             try:
                 customer = stripe.Customer.retrieve(stripe_customer.customer_token)
                 context["stripe_customer_data"] = customer.to_dict()
-            except stripe.StripeError:
+            except stripe.error.StripeError:
                 pass
 
         return context
@@ -92,7 +92,7 @@ class StripeDeleteSavedPaymentInfoView(View):
             try:
                 customer = stripe.Customer.retrieve(stripe_customer.customer_token)
                 customer.sources.retrieve(source_id).delete()
-            except stripe.StripeError:
+            except stripe.error.StripeError:
                 LOGGER.exception("Failed to delete Stripe source")
                 messages.error(request, _("Unknown error while removing payment details."))
 

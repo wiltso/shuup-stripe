@@ -67,7 +67,7 @@ class StripeCheckoutPhase(CheckoutPhaseViewMixin, FormView):
                 try:
                     customer = stripe.Customer.retrieve(stripe_customer.customer_token)
                     context["stripe_customer_data"] = customer.to_dict()
-                except stripe.StripeError:
+                except stripe.error.StripeError:
                     LOGGER.exception("Failed to fetch Stripe customer")
 
         return context

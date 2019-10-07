@@ -115,7 +115,7 @@ def test_save_card(rf, stripe_payment_processor):
                 assert response.url.endswith(reverse("shuup:stripe_saved_payment"))
 
     def raise_stripe_exc(*args, **kwargs):
-        raise stripe.StripeError("DUMMY")
+        raise stripe.error.StripeError("DUMMY")
 
     # raise when fetching customer
     with mock.patch("stripe.Customer.retrieve", new=raise_stripe_exc):
@@ -197,7 +197,7 @@ def test_delete_saved_card(rf, stripe_payment_processor):
 
         # delete with error
         mock_for_delete = get_delete_mock()
-        mock_for_delete.sources.retrieve.side_effect = stripe.StripeError("dummy")
+        mock_for_delete.sources.retrieve.side_effect = stripe.error.StripeError("dummy")
         mocked.return_value = mock_for_delete
         response = delete_view(request)
         mock_for_delete.sources.retrieve.delete.asset_called()

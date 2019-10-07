@@ -114,7 +114,7 @@ def test_stripe_checkout_phase_with_saved_card_exception(rf, stripe_payment_proc
     request = apply_request_middleware(rf.post("/"), shop=shop, customer=contact)
 
     def raise_stripe_exc(*args, **kwargs):
-        raise stripe.StripeError("DUMMY")
+        raise stripe.error.StripeError("DUMMY")
 
     with mock.patch("stripe.Customer.retrieve", new=raise_stripe_exc):
         service = stripe_payment_processor.create_service(
