@@ -22,7 +22,8 @@ class SendPaymentLink(DetailView):
 
     def get(self, request, *args, **kwargs):
         order = self.object = self.get_object()
-        customer_email = order.email
+        billing_address = order.billing_address
+        customer_email = (billing_address.email if billing_address and billing_address.email else order.email)
         if not customer_email:
             messages.error(self.request, _("Missing to email for the payment link."))
             return HttpResponseRedirect(get_model_url(self.get_object()))
