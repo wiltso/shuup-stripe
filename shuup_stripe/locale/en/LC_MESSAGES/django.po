@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 06:14+0000\n"
+"POT-Creation-Date: 2020-05-27 06:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,6 +151,12 @@ msgid "We use Stripe for secure payment handling."
 msgstr ""
 
 msgid "You can see the order details below."
+msgstr ""
+
+#, python-format
+msgid ""
+"Payment link is sent to order billing address email: <strong>%(email)s</"
+"strong>."
 msgstr ""
 
 msgid "Send Payment Link"
