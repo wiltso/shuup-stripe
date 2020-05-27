@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 from django.utils.translation import ugettext_lazy as _
 from shuup.notify.base import Event, Variable
-from shuup.notify.typology import Email, Language, Model, URL
+from shuup.notify.typology import Email, Language, Model, Text
 
 
 class SendStripePaymentLink(Event):
@@ -17,5 +17,5 @@ class SendStripePaymentLink(Event):
 
     order = Variable(_("Order"), type=Model("shuup.Order"))
     customer_email = Variable(_("Customer Email"), type=Email)
-    payment_link = Variable(_("URL to Stripe payment lin"), type=URL)
+    payment_link = Variable(_("URL to Stripe payment link"), type=Text)
     language = Variable(_("Language"), type=Language)

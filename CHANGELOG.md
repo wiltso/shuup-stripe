@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Enter here all the changes made to the development version
 
+## [1.0.4] - 2020-05-27
+
+- Admin: Fix payment link URL for notify event
+
 ## [1.0.3] - 2020-05-27
 
 - Admin: Fix bug in email information
