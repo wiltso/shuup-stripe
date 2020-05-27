@@ -34,5 +34,14 @@ class ShuupStripeAppConfig(shuup.apps.AppConfig):
         ],
         "admin_shop_form_part": [
             "shuup_stripe.admin_module.form_parts.StripeConfigurationFormPart"
-        ]
+        ],
+        "admin_module": [
+            "shuup_stripe.admin_module:StripeModule",
+        ],
+        "admin_order_section": [
+            "shuup_stripe.order_section:StripePaymentSection"
+        ],
+        "notify_event": [
+            "shuup_stripe.notify_events:SendStripePaymentLink",
+        ],
     }

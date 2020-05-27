@@ -1,0 +1,99 @@
+{% extends "shuup/front/base.jinja" %}
+{% from "shuup/front/macros/general.jinja" import render_field with context %}
+
+{% block title %}{% trans %}Payment{% endtrans %}{% endblock %}
+{% block content_title %}{% trans %}Payment{% endtrans %}{% endblock %}
+
+{% macro render_form(order) %}
+    <form role="form" method="post" action="{{ url('shuup:stripe_payment_view', pk=order.pk, key=order.key) }}">
+    {% csrf_token %}
+    {{ caller() }}
+    </form>
+{% endmacro %}
+
+{% macro render_stripe_payment(order) %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% call render_form(order) %}
+            {% set custom_message = stripe_utils.get_checkout_payment_details_message() %}
+            {% if custom_message %}
+                {{ custom_message|safe }}
+            {% else %}
+                <p>{% trans %}Click the button below to enter your card details.{% endtrans %}</p>
+            {% endif %}
+            <script
+                src="https://checkout.stripe.com/checkout.js"
+                class="stripe-button"
+                data-key="{{ stripe.publishable_key }}"
+                data-amount="{{ stripe.amount }}"
+                data-name="{{ stripe.name }}"
+                data-currency="{{ stripe.currency }}"
+                data-description="{{ stripe.description }}"
+            ></script>
+        {% endcall %}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_saved_stripe_payment(order) %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% set custom_message = stripe_utils.get_checkout_saved_card_message() %}
+        {% if custom_message %}
+            {{ custom_message|safe }}
+        {% else %}
+            <p>{% trans %}Use saved card details by clicking button below:{% endtrans %}</p>
+        {% endif %}
+        {% for data in stripe_customer_data.sources.data %}
+            {% call render_form(order) %}
+                <div class="text-center">
+                    <input type="hidden" name="stripeCustomer" value="{{ stripe_customer_data.id }}" />
+                    {% if customer and customer.email %}
+                        <input type="hidden" name="stripeEmail" value="{{ customer.email }}" />
+                    {% endif %}
+                    <button type="submit" class="stripe-button-el">
+                        <span>
+                            {% if data.object == "card" %}
+                                <i class="fa fa-credit-card"></i>
+                                {{ _("Pay with {brand} **** {last4}").format(
+                                    brand=data.brand,
+                                    funding=data.funding,
+                                    last4=data.last4,
+                                    exp_month=data.exp_month,
+                                    exp_year=data.exp_year).strip() }}
+                            {% else %}
+                                {{ _("Pay with {funding} {object}").format(funding=data.funding, object=data.object) }}
+                            {% endif %}
+                        </span>
+                    </button>
+                </div>
+            {% endcall %}
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+{% block content %}
+    <div class="row">
+        {% set has_saved_customer_data = (stripe_customer_data and stripe_customer_data.sources and stripe_customer_data.sources.data) %}
+        <div class="col-xs-12 text-center">
+            {% set custom_message = stripe_utils.get_checkout_payment_phase_message() %}
+            {% if custom_message %}
+                {{ custom_message|safe }}
+            {% else %}
+                <p>{% trans %}We use Stripe for secure payment handling.{% endtrans %}</p>
+            {% endif %}
+        </div>
+        {% if has_saved_customer_data %}
+            <div class="col-md-6 text-center">{{ render_stripe_payment(order) }}</div>
+            <div class="col-md-6 text-center">{{ render_saved_stripe_payment(order) }}</div>
+        {% else %}
+            <div class="col-md-12 text-center">{{ render_stripe_payment(order) }}</div>
+        {% endif %}
+    </div>
+    <p><i class="fa fa-check text-success"></i> {% trans %}You can see the order details below.{% endtrans %}</p>
+    <hr>
+    {{ order_macros.print_order_detail(order, True) }}
+    <br>
+    
+{% endblock %}

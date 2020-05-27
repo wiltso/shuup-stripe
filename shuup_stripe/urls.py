@@ -20,5 +20,10 @@ urlpatterns = [
         r"^customer/delete-payment-info/$",
         login_required(views.StripeDeleteSavedPaymentInfoView.as_view()),
         name="stripe_delete_saved_payment"
+    ),
+    url(
+        r"^order/pay/(?P<pk>.+?)/(?P<key>.+?)/$",
+        views.StripePaymentView.as_view(),
+        name="stripe_payment_view"
     )
 ]
