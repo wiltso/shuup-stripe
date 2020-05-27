@@ -1,0 +1,8 @@
+{% set order = stripe_payment_section.order %}
+<div class="row text-center">
+    <div class="col-12 p-3">
+        <a class="btn btn-primary" href="{{ url('shuup_admin:shuup_stripe.payment_link', pk=order.pk) }}">
+            {% trans %}Send Payment Link{% endtrans %}
+        </a>
+    </div>
+</div>

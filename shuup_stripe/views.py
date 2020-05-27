@@ -10,15 +10,20 @@ from logging import getLogger
 import stripe
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import TemplateView
+from django.views.generic import DetailView, TemplateView
 from django.views.generic.base import View
-from shuup.core.models import get_person_contact
+from shuup.core.models import get_person_contact, Order
 from shuup.front.views.dashboard import DashboardViewMixin
+from shuup.utils.excs import Problem
 
-from shuup_stripe.models import StripeCustomer
-from shuup_stripe.utils import get_stripe_processor
+from shuup_stripe.checkout_forms import StripeTokenForm
+from shuup_stripe.models import StripeCheckoutPaymentProcessor, StripeCustomer
+from shuup_stripe.utils import get_amount_info, get_stripe_processor
 
 LOGGER = getLogger(__name__)
 
@@ -100,3 +105,82 @@ class StripeDeleteSavedPaymentInfoView(View):
                 messages.success(request, _("Payment successfully removed."))
 
         return HttpResponseRedirect(reverse("shuup:stripe_saved_payment"))
+
+
+class StripePaymentView(DetailView):
+    model = Order
+    context_object_name = "order"
+    template_name = "shuup/stripe/create_payment.jinja"
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(self.model, pk=self.kwargs["pk"], key=self.kwargs["key"])
+
+    def dispatch(self, request, *args, **kwargs):
+        order = self.object = self.get_object()
+        if order.is_paid():
+            raise Http404("Order already fully paid.")
+
+        proseccor = order.payment_method.payment_processor
+        if not isinstance(proseccor, StripeCheckoutPaymentProcessor):
+            raise Http404("Stripe not selected payment method.")
+
+        return super(StripePaymentView, self).dispatch(request, args, kwargs)
+
+    def post(self, request, *args, **kwargs):
+        order = self.get_object()
+        form = StripeTokenForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            payment_data = order.payment_data
+            payment_data["stripe"] = {
+                "token": data.get("stripeToken"),
+                "token_type": data.get("stripeTokenType"),
+                "email": data.get("stripeEmail"),
+                "customer": data.get("stripeCustomer")
+            }
+            order.payment_data = payment_data
+            order.save(update_fields=["payment_data"])
+            return redirect("shuup:order_process_payment", pk=order.pk, key=order.key)
+
+        messages.error(request, _("Error in the payment data. Please re-submit the payment."))
+        return super(StripePaymentView, self).get(request, args, kwargs)
+
+    def get_stripe_context(self):
+        order = self.get_object()
+        payment_processor = order.payment_method.payment_processor
+        publishable_key = payment_processor.publishable_key
+        secret_key = payment_processor.secret_key
+        if not (publishable_key and secret_key):
+            raise Problem(
+                _("Please configure Stripe keys for payment processor %s.") %
+                payment_processor)
+
+        config = {
+            "publishable_key": publishable_key,
+            "name": force_text(self.request.shop),
+            "description": force_text(_("Purchase")),
+        }
+        config.update(get_amount_info(order.taxful_total_price))
+        return config
+
+    def get_context_data(self, **kwargs):
+        context = super(StripePaymentView, self).get_context_data()
+        context["stripe"] = self.get_stripe_context()
+        context["customer"] = self.request.customer
+
+        if self.request.customer:
+            order = self.get_object()
+            stripe_customer = StripeCustomer.objects.filter(contact=self.request.customer).first()
+            payment_processor = order.payment_method.payment_processor
+
+            if stripe_customer:
+                import stripe
+                stripe.api_key = payment_processor.secret_key
+
+                try:
+                    customer = stripe.Customer.retrieve(stripe_customer.customer_token)
+                    context["stripe_customer_data"] = customer.to_dict()
+                except stripe.error.StripeError:
+                    LOGGER.exception("Failed to fetch Stripe customer")
+
+        return context
