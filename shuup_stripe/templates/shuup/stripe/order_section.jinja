@@ -2,6 +2,7 @@
 <div class="row text-center">
     <div class="col-12 p-3">
         <p>
+        {% set billing_address = order.billing_address %}
         {% trans email=(billing_address.email if billing_address and billing_address.email else order.email) -%}
             Payment link is sent to order billing address email: <strong>{{ email }}</strong>.
         {%- endtrans %}
