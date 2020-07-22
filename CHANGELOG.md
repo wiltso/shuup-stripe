@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Enter here all the changes made to the development version
 
+### Changed
+
+- Make key fields longer
+
 ## [1.0.4] - 2020-05-27
 
 - Admin: Fix payment link URL for notify event
