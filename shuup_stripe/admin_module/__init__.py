@@ -31,7 +31,10 @@ class SendPaymentLink(DetailView):
         params = dict(
             order=order,
             customer_email=customer_email,
-            payment_link=reverse("shuup:stripe_payment_view", kwargs={"pk": order.pk, "key": order.key}),
+            payment_link=request.build_absolute_uri(reverse(
+                "shuup:order_process_payment",
+                kwargs={"pk": order.pk, "key": order.key})
+            ),
             language=order.language
         )
         SendStripePaymentLink(**params).run(shop=order.shop)
