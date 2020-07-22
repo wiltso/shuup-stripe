@@ -13,9 +13,9 @@ from shuup.core.models import PaymentProcessor, ServiceChoice
 
 
 class StripeCheckoutPaymentProcessor(PaymentProcessor):
-    secret_key = models.CharField(max_length=100, verbose_name=_("Secret Key"))
+    secret_key = models.CharField(max_length=255, verbose_name=_("Secret Key"))
     publishable_key = models.CharField(
-        max_length=100, verbose_name=_("Publishable Key"))
+        max_length=255, verbose_name=_("Publishable Key"))
 
     def get_service_choices(self):
         stripe_chargers = get_provide_objects("stripe_charger")
@@ -35,7 +35,7 @@ class StripeCheckoutPaymentProcessor(PaymentProcessor):
 
 class StripeCustomer(models.Model):
     contact = models.OneToOneField("shuup.Contact", verbose_name=_("contact"), related_name="stripe_customer")
-    customer_token = models.CharField(max_length=100, verbose_name=_("Stripe customer ID"))
+    customer_token = models.CharField(max_length=255, verbose_name=_("Stripe customer ID"))
 
     class Meta:
         verbose_name = _("Stripe Customer")
