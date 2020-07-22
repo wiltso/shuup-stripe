@@ -12,6 +12,12 @@ Enter here all the changes made to the development version
 
 - Fixed so when payment link get's sent it contains the domain of the site
 
+## [1.0.5] - 2020-05-22
+
+### Changed
+
+- Make key fields longer
+
 ## [1.0.4] - 2020-05-27
 
 - Admin: Fix payment link URL for notify event
